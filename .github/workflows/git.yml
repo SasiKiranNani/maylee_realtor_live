@@ -44,8 +44,6 @@ jobs:
           username: ${{ secrets.LIVE_USERNAME }}
           password: ${{ secrets.LIVE_PASSWORD }}
           exclude: |
-            **/node_modules/**
-            **/vendor/**
             **/.git
             **/.git/**
             **/.env
@@ -56,8 +54,6 @@ jobs:
             **/tests/**
             **/storage/logs/**
             **/storage/framework/**
-            **/package-lock.json
-            **/composer.lock
 
       # ✅ Deploy to First Server (e.g., staging)
       # - name: Deploy to FTP Server 2 (Staging)
