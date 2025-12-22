@@ -1,0 +1,7 @@
+.fi-topbar {
+    height: 6rem !important;
+}
+
+.fi-topbar>nav {
+    height: 6rem !important;
+}

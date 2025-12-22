@@ -1,0 +1,21 @@
+/* Override Sidebar Header */
+.fi-sidebar-header {
+    height: 6rem !important;
+}
+
+/* Override Topbar */
+.fi-topbar,
+.fi-topbar>nav {
+    height: 6rem !important;
+}
+
+/* Ensure Logo container centers correctly if needed */
+.fi-sidebar-header .fi-logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.fi-sidebar-item-icon.text-primary-600, .fi-sidebar-item-label.text-primary-600 {
+    color: rgb(122 13 202) !important;
+}

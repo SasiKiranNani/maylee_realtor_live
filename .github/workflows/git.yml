@@ -1,0 +1,83 @@
+name: Deploy website on push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  admin-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Use PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+
+      - name: Installing Composer
+        run: |
+          curl -sS https://getcomposer.org/installer | php
+          sudo mv composer.phar /usr/local/bin/composer
+
+      - name: Installing PHP dependencies
+        run: composer install
+
+      - name: Installing Node dependencies
+        run: |
+          npm install
+          npm run build
+
+      # ✅ Deploy to Second Server (e.g., production/live)
+      - name: Deploy to FTP Server (Live)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.LIVE_SERVER }}
+          username: ${{ secrets.LIVE_USERNAME }}
+          password: ${{ secrets.LIVE_PASSWORD }}
+          exclude: |
+            **/node_modules/**
+            **/vendor/**
+            **/.git
+            **/.git/**
+            **/.env
+            **/.env.example
+            **/.editorconfig
+            **/.github/**
+            **/.vscode/**
+            **/tests/**
+            **/storage/logs/**
+            **/storage/framework/**
+            **/package-lock.json
+            **/composer.lock
+
+      # ✅ Deploy to First Server (e.g., staging)
+      # - name: Deploy to FTP Server 2 (Staging)
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      #   with:
+      #     server: ${{ secrets.FTP_SERVER }}
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     exclude: |
+      #       **/node_modules/**
+      #        **/vendor/**
+      #        **/.git
+      #        **/.git/**
+      #        **/.env
+      #        **/.env.example
+      #        **/.editorconfig
+      #        **/.github/**
+      #        **/.vscode/**
+      #        **/tests/**
+      #        **/storage/logs/**
+      #        **/storage/framework/**
+      #        **/package-lock.json
+      #        **/composer.lock
