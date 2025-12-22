@@ -52,7 +52,6 @@ jobs:
             **/.github/**
             **/.vscode/**
             **/tests/**
-            **/storage/logs/**
             **/storage/framework/**
 
       # ✅ Deploy to First Server (e.g., staging)
