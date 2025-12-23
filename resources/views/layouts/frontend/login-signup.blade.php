@@ -5,7 +5,7 @@
                 <i class="fa-solid fa-x"></i>
             </div>
             <div class="left-wrap">
-                <img src="assets/images/maylee-realtor-logo-v2.png" alt="">
+                <img src="{{ asset('public/Maylee-Logo.png') }}" alt="">
             </div>
             <div class="right-wrap">
                 <!-- Sign In Form Block -->

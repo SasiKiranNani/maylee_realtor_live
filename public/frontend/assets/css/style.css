@@ -3312,7 +3312,10 @@ footer.rt-footer .footer-top .row div[class^="col-"] {
 }
 
 .rt-signin-signup-popup .wrapper .left-wrap img {
-    max-width: 100px;
+    max-width: 100%;
+    background: black;
+    opacity: 0.8;
+    border-radius: 50%;
 }
 
 .rt-signin-signup-popup .wrapper .right-wrap {
