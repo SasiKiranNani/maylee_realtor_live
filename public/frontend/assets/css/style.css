@@ -4182,3 +4182,6 @@ footer.rt-footer .footer-top .row div[class^="col-"] {
 .about-founder #lang-toggle-btn.rt-btn.btn-small:hover, .rt-associate-executive-sec .rt-content-block #lang-toggle-btn-assistant:hover {
     color: #fff;
 }
+.rt-content-block-2.agent .main-title h1 {
+    font-size: 2.4rem;
+}

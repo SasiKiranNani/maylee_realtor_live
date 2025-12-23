@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-12 col-sm-12">
-                        <div class="rt-content-block-2">
+                        <div class="rt-content-block-2 agent">
                             <div class="main-title">
                                 <h1 style="word-wrap: break-word;">Reliable.Genuine.Experienced.</h1>
                             </div>
