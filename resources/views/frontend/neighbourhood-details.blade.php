@@ -11,9 +11,9 @@
                         <div class="rt-btn-group mt-5">
                             <a href="{{ route('buy', ['search' => $city->city]) }}" class="rt-btn" target="_blank">Buy <span
                                     class="icon"><i class="fa-solid fa-house"></i></span></a>
-                            <a href="{{ route('sell', ['search' => $city->city]) }}" class="rt-btn btn-pink" target="_blank">For Sale
+                            <a href="{{ route('sell', ['search' => $city->city]) }}" class="rt-btn btn-pink" target="_blank">Sale
                                 <span class="icon"><i class="fa-solid fa-house"></i></span></a>
-                            <a href="{{ route('lease', ['search' => $city->city]) }}" class="rt-btn btn-main" target="_blank">For Lease
+                            <a href="{{ route('lease', ['search' => $city->city]) }}" class="rt-btn btn-main" target="_blank">Lease
                                 <span class="icon"><i class="fa-solid fa-house"></i></span></a>
                         </div>
                     </div>

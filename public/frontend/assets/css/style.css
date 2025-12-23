@@ -2270,6 +2270,7 @@ header.main-header.sticky-fixed .navbar-collapse {
     left: 0;
     bottom: 0;
     z-index: 999;
+    pointer-events: none;
 }
 
 .rt-property-single-action-btn-sec a {
@@ -2282,6 +2283,7 @@ header.main-header.sticky-fixed .navbar-collapse {
     font-size: 16px;
     line-height: 16px;
     border-radius: 10px;
+    pointer-events: all;
 }
 
 .rt-property-single-action-btn-sec a:nth-child(even) {
