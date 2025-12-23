@@ -132,8 +132,3 @@
         <!-- Conatct Section End -->
     </div>
 @endsection
-@section('styles')
-.rt-about-banner-section .title {
-color: #fff !important;
-}
-@endsection

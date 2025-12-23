@@ -848,6 +848,7 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#tenure-value').text(tenureText);
 
             // Update chart with Monthly Payment, CMHC, PST, and Principal
+            loanChart.data.labels[3] = label;
             loanChart.data.datasets[0].data = [principal, cmhcPremium, pstOnCMHC, payment];
             loanChart.update();
 
