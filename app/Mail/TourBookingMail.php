@@ -30,7 +30,7 @@ class TourBookingMail extends Mailable
             ->with([
                 'booking' => $this->booking,
                 'isAdmin' => $this->isAdmin,
-                'logoUrl' => asset('frontend/assets/images/maylee-realtor-logo-v2.png'),
+                'logoUrl' => asset('Maylee-Logo.png'),
             ]);
     }
 }
