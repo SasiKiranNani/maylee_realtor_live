@@ -4171,10 +4171,14 @@ footer.rt-footer .footer-top .row div[class^="col-"] {
 }
 
 /* about language btn style*/
-.about-founder #lang-toggle-btn.rt-btn.btn-small {
+.rt-associate-executive-sec .rt-content-block #lang-toggle-btn-assistant {
+    height: fit-content;
+}
+
+.about-founder #lang-toggle-btn.rt-btn.btn-small, .rt-associate-executive-sec .rt-content-block #lang-toggle-btn-assistant {
     color: var(--rt-button-color);
 }
 
-.about-founder #lang-toggle-btn.rt-btn.btn-small:hover {
+.about-founder #lang-toggle-btn.rt-btn.btn-small:hover, .rt-associate-executive-sec .rt-content-block #lang-toggle-btn-assistant:hover {
     color: #fff;
 }

@@ -11,7 +11,7 @@
             </div>
         </section>
         <!-- Banner Section End -->
-<!-- Founder Section -->
+        <!-- Founder Section -->
         <section class="about-founder sec-pad d-block w-100 bg-white position-relative">
             <div class="container">
                 <div class="row align-items-center">
@@ -297,8 +297,15 @@
                 <div class="row align-items-center">
                     <div class="col-lg-8 col-md-9 col-sm-12">
                         <div class="rt-content-block">
-                            <h2 class="title">Paul Wang</h2>
-                            <h3 class="subtitle">Assistant</h3>
+                            <div class="d-flex justify-content-between">
+                                <div class="assist">
+                                    <h2 class="title">Paul Wang</h2>
+                                    <h3 class="subtitle">Assistant</h3>
+                                </div>
+                                <button id="lang-toggle-btn-assistant" class="rt-btn btn-small btn-outline">
+                                    普通话 <span class="icon"><i class="fa-solid fa-language"></i></span>
+                                </button>
+                            </div>
                             <div id="assistant-text-en" class="content">
                                 <p>Paul Wang serves as an integral assistant to a dedicated realtor May Lee, bringing a
                                     multifaceted skill set to the
@@ -344,21 +351,21 @@
         </section>
         <!-- Associate Executive Section End -->
         <!-- Mission Section -->
-           <section class="rt-mission-section d-block w-100 position-relative">
+        <section class="rt-mission-section d-block w-100 position-relative">
             <div id="mission-text-en" class="container text-center">
                 <h1>Mission Statement</h1>
                 <p>"To guide you through every stage of your real estate journey with transparency,
                     integrity, and
                     unwavering commitment. We prioritize your best interests, delivering exceptional results that empower
                     your next chapter."</p>
-                
+
             </div>
             <div id="vision-text-en" class="container text-center">
                 <h1>Our Vision</h1>
                 <p>"To be your lifelong real estate partner—recognized for transforming every
                     transaction into a seamless,
                     rewarding, and trusted experience."</p>
-                
+
             </div>
 
             <div id="mission-text-mn" class="container text-center d-none">
@@ -368,7 +375,7 @@
             <div id="vision-text-mn" class="container text-center d-none">
                 <h1>願景:</h1>
                 <p>"成為您終身信賴的房地產夥伴——將每次交易化為流暢無礙、回報豐厚且值得託付的體驗而備受認可。"</p>
-            </div>  
+            </div>
         </section>
         <!-- Mission Section End -->
         <!-- Values Section -->
@@ -467,7 +474,7 @@
         <!-- Conatct Section -->
         <section class="rt-home-contact-sec sec-pad position-relative overflow-hidden">
             <div class="container">
-               <x-contact source="About Us" />
+                <x-contact source="About Us" />
             </div>
         </section>
         <!-- Conatct Section End -->
@@ -481,8 +488,6 @@
             const mnList = document.getElementById('about-points-mn');
             const enIntro = document.getElementById('intro-text-en');
             const mnIntro = document.getElementById('intro-text-mn');
-            const enAssistant = document.getElementById('assistant-text-en');
-            const mnAssistant = document.getElementById('assistant-text-mn');
             const enMission = document.getElementById('mission-text-en');
             const mnMission = document.getElementById('mission-text-mn');
             const enVision = document.getElementById('vision-text-en');
@@ -494,8 +499,6 @@
                 mnList.classList.add('d-none');
                 enIntro.classList.remove('d-none');
                 mnIntro.classList.add('d-none');
-                enAssistant.classList.remove('d-none');
-                mnAssistant.classList.add('d-none');
                 enMission.classList.remove('d-none');
                 mnMission.classList.add('d-none');
                 enVision.classList.remove('d-none');
@@ -506,8 +509,6 @@
                 mnList.classList.remove('d-none');
                 enIntro.classList.add('d-none');
                 mnIntro.classList.remove('d-none');
-                enAssistant.classList.add('d-none');
-                mnAssistant.classList.remove('d-none');
                 enMission.classList.add('d-none');
                 mnMission.classList.remove('d-none');
                 enVision.classList.add('d-none');
@@ -515,5 +516,22 @@
                 btn.innerHTML = 'English <span class="icon"><i class="fa-solid fa-language"></i></span>';
             }
         });
+
+        document.getElementById('lang-toggle-btn-assistant').addEventListener('click', function () {
+            const enAssistant = document.getElementById('assistant-text-en');
+            const mnAssistant = document.getElementById('assistant-text-mn');
+            const btn = this;
+            
+            if (enAssistant.classList.contains('d-none')) {
+                enAssistant.classList.remove('d-none');
+                mnAssistant.classList.add('d-none');
+                btn.innerHTML = '普通话 <span class="icon"><i class="fa-solid fa-language"></i></span>';
+            } else {
+                enAssistant.classList.add('d-none');
+                mnAssistant.classList.remove('d-none');
+                btn.innerHTML = 'English <span class="icon"><i class="fa-solid fa-language"></i></span>';
+            }
+        });
+
     </script>
 @endsection
