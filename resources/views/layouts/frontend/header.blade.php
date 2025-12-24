@@ -26,8 +26,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('neighbourhood') }}">Neighbourhood</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('our-service') }}">Services</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#">Others</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('our-service') }}">Services</a></li>
+                                <li><a href="{{ route('frontend.about-us') }}">About Us</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
