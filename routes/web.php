@@ -13,7 +13,12 @@ use App\Http\Controllers\SubscriptionController;
 // });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('our-services', function() {
+
+// AJAX endpoints for lazy loading
+Route::get('/api/home/properties', [HomeController::class, 'getProperties'])->name('api.home.properties');
+Route::get('/api/home/counts', [HomeController::class, 'getCounts'])->name('api.home.counts');
+
+Route::get('our-services', function () {
     return view('frontend.our-service');
 })->name('our-service');
 // Route::get('/about-us', [HomeController::class, 'aboutUs'])->name('about-us');
@@ -71,11 +76,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    
-     Route::get('/wishlist', [PropertyController::class, 'wishlist'])->name('wishlist');
+
+    Route::get('/wishlist', [PropertyController::class, 'wishlist'])->name('wishlist');
     Route::post('/wishlist/toggle', [PropertyController::class, 'toggleWishlist'])->name('wishlist.toggle');
-    
-     Route::get('/user-profile', [UserProfileController::class, 'index'])->name('user.profile');
+
+    Route::get('/user-profile', [UserProfileController::class, 'index'])->name('user.profile');
     Route::post('/user-profile/update', [UserProfileController::class, 'update'])->name('user.profile.update');
     Route::post('/user-profile/avatar', [UserProfileController::class, 'updateAvatar'])->name('user.profile.avatar');
     Route::post('/user-profile/cover', [UserProfileController::class, 'updateCover'])->name('user.profile.cover');

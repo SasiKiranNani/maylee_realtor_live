@@ -101,62 +101,200 @@ class HomeController extends Controller
 
     public function index()
     {
+        // INSTANT LOAD: Just return cities and empty data
+        // Properties and counts will load via AJAX
+        Log::info('⚡ Index called - instant load mode');
+        
         try {
-            // Fetch cities active for home
+            $cities = City::where('is_home_active', true)->get();
+            
+            return view('frontend.index', [
+                'cities' => $cities,
+                'properties' => [], // Will load via AJAX
+                'cityCounts' => array_fill_keys($cities->pluck('city')->toArray(), 0),
+                'propertySubTypeCounts' => [],
+                'totalActiveProperties' => 0,
+                'lazyLoad' => true, // Flag to trigger AJAX loading
+            ]);
+        } catch (\Exception $e) {
+            Log::error('HomeController index error:', ['message' => $e->getMessage()]);
+            
+            return view('frontend.index', [
+                'properties' => [],
+                'cities' => [],
+                'cityCounts' => [],
+                'propertySubTypeCounts' => [],
+                'totalActiveProperties' => 0,
+                'lazyLoad' => false,
+            ]);
+        }
+    }
+
+    /**
+     * AJAX endpoint for loading properties
+     */
+    public function getProperties()
+    {
+        $pageStart = microtime(true);
+        Log::info('⏱️ [0.00s] AJAX: Properties fetch started');
+        
+        try {
             $cities = City::where('is_home_active', true)->get();
             $selectedCities = $cities->pluck('city')->toArray();
-
-            // We want ~2 properties per city → 12 total
-            // So fetch up to 4–5 per city (some may lack photos), total ~30 candidates
-            $candidatesNeeded = count($selectedCities) * 5; // ~30
-
+            $candidatesNeeded = count($selectedCities) * 5;
             $allTransactionTypes = ['For Sale', 'For Lease'];
+
+            // Parallel property fetch
+            $propStart = microtime(true);
+            $responses = Http::pool(fn (\Illuminate\Http\Client\Pool $pool) => [
+                'forSale' => $pool->as('forSale')->withHeaders([
+                    'Authorization' => 'Bearer ' . env('AMP_API_TOKEN'),
+                    'Accept' => 'application/json',
+                ])->timeout(120)->get($this->baseUrl . 'Property', [
+                    '$filter' => $this->buildPropertyFilter($selectedCities, 'For Sale'),
+                    '$orderby' => 'ModificationTimestamp desc',
+                    '$top' => min(1000, $candidatesNeeded * 3),
+                    '$select' => 'ListingKey,UnitNumber,StreetNumber,StreetName,StreetSuffix,City,StateOrProvince,PostalCode,ListPrice,TransactionType,BedroomsTotal,BathroomsTotalInteger,LivingAreaRange,DaysOnMarket,ListingContractDate,PropertySubType,LotSizeArea,Latitude,Longitude,PublicRemarks,PropertyType,YearBuilt,UnparsedAddress',
+                ]),
+                'forLease' => $pool->as('forLease')->withHeaders([
+                    'Authorization' => 'Bearer ' . env('AMP_API_TOKEN'),
+                    'Accept' => 'application/json',
+                ])->timeout(120)->get($this->baseUrl . 'Property', [
+                    '$filter' => $this->buildPropertyFilter($selectedCities, 'For Lease'),
+                    '$orderby' => 'ModificationTimestamp desc',
+                    '$top' => min(1000, $candidatesNeeded * 3),
+                    '$select' => 'ListingKey,UnitNumber,StreetNumber,StreetName,StreetSuffix,City,StateOrProvince,PostalCode,ListPrice,TransactionType,BedroomsTotal,BathroomsTotalInteger,LivingAreaRange,DaysOnMarket,ListingContractDate,PropertySubType,LotSizeArea,Latitude,Longitude,PublicRemarks,PropertyType,YearBuilt,UnparsedAddress',
+                ]),
+            ]);
+            
+            Log::info('⏱️ [' . round(microtime(true) - $pageStart, 2) . 's] Parallel fetch complete (took ' . round(microtime(true) - $propStart, 2) . 's)');
 
             $allPropertiesWithMedia = [];
 
-            foreach ($allTransactionTypes as $transactionType) {
-                // ONE query per transaction type → fetches ALL cities at once
-                $properties = $this->fetchPropertiesWithMediaOptimized(
-                    $selectedCities,
-                    $candidatesNeeded,
-                    $transactionType
-                );
-
-                $allPropertiesWithMedia = array_merge($allPropertiesWithMedia, $properties);
+            // Process For Sale
+            if ($responses['forSale']->successful()) {
+                $forSaleProperties = $responses['forSale']->json()['value'] ?? [];
+                if (!empty($forSaleProperties)) {
+                    $listingKeys = array_column($forSaleProperties, 'ListingKey');
+                    $mediaMap = $this->fetchMedia($listingKeys, 1);
+                    $allPropertiesWithMedia = array_merge(
+                        $allPropertiesWithMedia,
+                        $this->processPropertiesWithMedia($forSaleProperties, $mediaMap, $selectedCities, 5)
+                    );
+                }
             }
 
-            // Shuffle to mix Sale/Lease fairly
-            shuffle($allPropertiesWithMedia);
+            // Process For Lease
+            if ($responses['forLease']->successful()) {
+                $forLeaseProperties = $responses['forLease']->json()['value'] ?? [];
+                if (!empty($forLeaseProperties)) {
+                    $listingKeys = array_column($forLeaseProperties, 'ListingKey');
+                    $mediaMap = $this->fetchMedia($listingKeys, 1);
+                    $allPropertiesWithMedia = array_merge(
+                        $allPropertiesWithMedia,
+                        $this->processPropertiesWithMedia($forLeaseProperties, $mediaMap, $selectedCities, 5)
+                    );
+                }
+            }
 
-            // Take only 12 final properties
+            shuffle($allPropertiesWithMedia);
             $finalProperties = array_slice($allPropertiesWithMedia, 0, 12);
 
-            Log::info('Homepage properties fetched efficiently', [
-                'total_candidates' => count($allPropertiesWithMedia),
-                'final_count' => count($finalProperties),
+            Log::info('⏱️ [' . round(microtime(true) - $pageStart, 2) . 's] 🏁 Properties AJAX complete');
+
+            return response()->json([
+                'success' => true,
+                'properties' => $finalProperties,
+                'count' => count($finalProperties),
             ]);
 
-            // Fetch counts (still one smart paginated query)
+        } catch (\Exception $e) {
+            Log::error('AJAX properties error:', ['message' => $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+                'properties' => [],
+            ], 500);
+        }
+    }
+
+    /**
+     * AJAX endpoint for loading counts
+     */
+    public function getCounts()
+    {
+        $pageStart = microtime(true);
+        Log::info('⏱️ [0.00s] AJAX: Counts fetch started');
+        
+        try {
+            $cities = City::where('is_home_active', true)->get();
+            $selectedCities = $cities->pluck('city')->toArray();
+            $allTransactionTypes = ['For Sale', 'For Lease'];
+
             $counts = $this->fetchPropertyCounts($allTransactionTypes, $selectedCities);
 
-            return view('frontend.index', [
-                'properties' => $finalProperties,
-                'cities' => $cities,
+            Log::info('⏱️ [' . round(microtime(true) - $pageStart, 2) . 's] 🏁 Counts AJAX complete');
+
+            return response()->json([
+                'success' => true,
                 'cityCounts' => $counts['cityCounts'],
                 'propertySubTypeCounts' => $counts['propertySubTypeCounts'],
                 'totalActiveProperties' => $counts['totalActiveProperties'],
             ]);
 
         } catch (\Exception $e) {
-            Log::error('HomeController index error:', ['message' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-
-            return view('frontend.index', [
-                'properties' => [],
-                'cityCounts' => array_fill_keys(['Brampton', 'Mississauga', 'Oakville', 'Markham', 'Vaughan', 'Richmond Hill'], 0),
-                'propertySubTypeCounts' => [],
-                'totalActiveProperties' => 0,
-            ]);
+            Log::error('AJAX counts error:', ['message' => $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500);
         }
+    }
+
+    /**
+     * Build property filter for API queries
+     */
+    private function buildPropertyFilter($cities, $transactionType)
+    {
+        $citiesFilter = "City in ('" . implode("','", array_map('addslashes', $cities)) . "')";
+        $statusFilter = "StandardStatus eq 'Active'";
+        $transactionFilter = "TransactionType eq '" . addslashes($transactionType) . "'";
+        $typeFilter = "PropertyType ne 'Commercial'";
+
+        // Exclude unwanted subtypes
+        $subTypeExclusions = array_map(fn($t) => "PropertySubType ne '" . addslashes($t) . "'", $this->excludedPropertySubTypes);
+        $subTypeFilter = !empty($subTypeExclusions) ? ' and ' . implode(' and ', $subTypeExclusions) : '';
+
+        return "$citiesFilter and $statusFilter and $transactionFilter and $typeFilter$subTypeFilter";
+    }
+
+    /**
+     * Process properties with media and filter by city
+     */
+    private function processPropertiesWithMedia($properties, $mediaMap, $selectedCities, $maxPerCity)
+    {
+        $results = [];
+        $perCityCount = array_fill_keys($selectedCities, 0);
+
+        foreach ($properties as $property) {
+            $city = trim($property['City'] ?? '');
+            if (!in_array($city, $selectedCities))
+                continue;
+
+            // Stop if we already have enough per city
+            if ($perCityCount[$city] >= $maxPerCity)
+                continue;
+
+            $listingKey = $property['ListingKey'];
+            if (empty($mediaMap[$listingKey]))
+                continue;
+
+            $processed = $this->processProperty($property, $mediaMap[$listingKey][0]);
+            $results[] = $processed;
+            $perCityCount[$city]++;
+        }
+
+        return $results;
     }
 
     private function fetchPropertiesWithMediaOptimized($cities, $limitTotal = 30, $transactionType = 'For Sale')
@@ -178,7 +316,7 @@ class HomeController extends Controller
             '$filter' => $filter,
             '$orderby' => 'ModificationTimestamp desc',
             '$top' => min(1000, $limitTotal * 3), // Fetch extra to ensure enough have photos
-            '$select' => 'ListingKey,StreetNumber,StreetName,StreetSuffix,City,StateOrProvince,PostalCode,ListPrice,TransactionType,BedroomsTotal,BathroomsTotalInteger,LivingAreaRange,DaysOnMarket,ListingContractDate,PropertySubType,LotSizeArea,Latitude,Longitude,PublicRemarks,PropertyType,YearBuilt,UnparsedAddress',
+            '$select' => 'ListingKey,UnitNumber,StreetNumber,StreetName,StreetSuffix,City,StateOrProvince,PostalCode,ListPrice,TransactionType,BedroomsTotal,BathroomsTotalInteger,LivingAreaRange,DaysOnMarket,ListingContractDate,PropertySubType,LotSizeArea,Latitude,Longitude,PublicRemarks,PropertyType,YearBuilt,UnparsedAddress',
         ]);
 
         if (!$response->successful()) {
@@ -360,11 +498,15 @@ class HomeController extends Controller
         $filter = "ResourceRecordKey in ($keysCsv) and MediaCategory eq 'Photo' and ModificationTimestamp ge 2020-01-01T00:00:00Z";
 
         try {
+            $apiStart = microtime(true);
+            // OPTIMIZATION: Use $select to fetch only needed fields (reduces payload size)
             $response = $httpClient->get("{$this->baseUrl}Media", [
                 '$filter' => $filter,
                 '$orderby' => 'Order asc',
                 '$top' => 2000,
+                '$select' => 'ResourceRecordKey,MediaURL,Order',
             ]);
+            $apiTime = round(microtime(true) - $apiStart, 2);
 
             if (!$response->successful()) {
                 Log::warning('Media fetch failed', ['status' => $response->status()]);
@@ -376,6 +518,7 @@ class HomeController extends Controller
                 'keys_requested' => count($listingKeys),
                 'photos_found' => count($allMedia),
                 'sample_key' => $allMedia[0]['ResourceRecordKey'] ?? 'none',
+                'api_time' => $apiTime . 's',
             ]);
         } catch (\Exception $e) {
             Log::error('Media fetch exception: ' . $e->getMessage());
@@ -505,27 +648,41 @@ class HomeController extends Controller
         $filter = "$citiesFilter and $statusFilter and $transactionFilter and $propertyTypeFilter and $subTypeExclusionFilter";
 
         $cityCounts = array_fill_keys($selectedCities, 0);
-        $propertySubTypeCounts = []; // Will count how many properties have each subtype
-
+        $propertySubTypeCounts = [];
         $totalActiveProperties = 0;
-        $pageSize = 1000;
-        $skip = 0;
-
-        $selectFields = 'City,PropertySubType,PropertyType';
 
         try {
+            // OPTIMIZATION 1: Get total count first without fetching records
+            $apiStart = microtime(true);
+            $countResponse = $httpClient->get($this->baseUrl . 'Property', [
+                '$filter' => $filter,
+                '$count' => 'true',
+                '$top' => 0,
+            ]);
+            $apiTime = round(microtime(true) - $apiStart, 2);
+
+            if ($countResponse->successful()) {
+                $totalActiveProperties = $countResponse->json()['@odata.count'] ?? 0;
+                Log::info('✓ Total count (optimized)', [
+                    'total' => $totalActiveProperties,
+                    'api_time' => $apiTime . 's'
+                ]);
+            }
+
+            // OPTIMIZATION 2: Fetch only City,PropertySubType for breakdown (not PropertyType)
+            $pageSize = 1000;
+            $skip = 0;
+
             while (true) {
                 $response = $httpClient->get($this->baseUrl . 'Property', [
                     '$filter' => $filter,
-                    '$select' => $selectFields,
+                    '$select' => 'City,PropertySubType',
                     '$top' => $pageSize,
                     '$skip' => $skip,
-                    '$count' => 'true',
                 ]);
 
                 if ($response->successful()) {
                     $records = $response->json()['value'] ?? [];
-                    $totalActiveProperties = $response->json()['@odata.count'] ?? $totalActiveProperties + count($records);
 
                     foreach ($records as $record) {
                         $city = trim($record['City'] ?? '');
@@ -589,10 +746,10 @@ class HomeController extends Controller
         // Sort to maintain order
         ksort($displaySubTypeCounts);
 
-        Log::info('Home counts result:', [
-            'cityCounts' => $cityCounts,
-            'propertySubTypeCounts' => $displaySubTypeCounts,
-            'totalActiveProperties' => $totalActiveProperties,
+        Log::info('✓ Counts complete', [
+            'total' => $totalActiveProperties,
+            'cities' => count($cityCounts),
+            'subtypes' => count($displaySubTypeCounts),
         ]);
 
         return [
@@ -637,7 +794,7 @@ class HomeController extends Controller
         if (!$city->is_neighbourhood_active) {
             abort(404);
         }
-        
+
         try {
             // Fetch properties for sale in this city
             $saleProperties = $this->fetchPropertiesWithMediaOptimized([$city->city], 20, 'For Sale');
@@ -660,4 +817,3 @@ class HomeController extends Controller
         }
     }
 }
-

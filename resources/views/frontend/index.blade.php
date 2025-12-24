@@ -28,12 +28,12 @@
                     Greater Toronto Area, turning their dream homes into lasting realities with expert knowledge and a
                     heartfelt approach.</p>
                 <div class="rt-btn-group mt-5">
-                    <a href="{{ route('buy', ['search' => 'Mississauga']) }}" class="rt-btn" target="_blank" target="_blank">Buy <span class="icon"><i
-                                class="fa-solid fa-house"></i></span></a>
-                    <a href="{{ route('sell', ['search' => 'Mississauga']) }}" class="rt-btn btn-pink" target="_blank" target="_blank">Sell <span class="icon"><i
-                                class="fa-solid fa-house"></i></span></a>
-                    <a href="{{ route('lease', ['search' => 'Mississauga']) }}" class="rt-btn btn-main" target="_blank" target="_blank">Lease <span class="icon"><i
-                                class="fa-solid fa-house"></i></span></a>
+                    <a href="{{ route('buy', ['search' => 'Mississauga']) }}" class="rt-btn" target="_blank"
+                        target="_blank">Buy <span class="icon"><i class="fa-solid fa-house"></i></span></a>
+                    <a href="{{ route('sell', ['search' => 'Mississauga']) }}" class="rt-btn btn-pink" target="_blank"
+                        target="_blank">Sell <span class="icon"><i class="fa-solid fa-house"></i></span></a>
+                    <a href="{{ route('lease', ['search' => 'Mississauga']) }}" class="rt-btn btn-main" target="_blank"
+                        target="_blank">Lease <span class="icon"><i class="fa-solid fa-house"></i></span></a>
                 </div>
             </div>
         </div>
@@ -49,12 +49,12 @@
                 <p class="description">No brokers. No middlemen. Just honest, professional guidance to help you buy your
                     dream home, sell at the right price, or lease with ease.</p>
                 <div class="rt-btn-group mt-5">
-                    <a href="{{ route('buy', ['search' => 'Mississauga']) }}" class="rt-btn" target="_blank">Buy <span class="icon"><i
-                                class="fa-solid fa-house"></i></span></a>
-                    <a href="{{ route('sell', ['search' => 'Mississauga']) }}" class="rt-btn btn-pink btn-outline" target="_blank">Sell <span class="icon"><i
-                                class="fa-solid fa-house"></i></span></a>
-                    <a href="{{ route('lease', ['search' => 'Mississauga']) }}" class="rt-btn btn-main" target="_blank">Lease <span class="icon"><i
-                                class="fa-solid fa-house"></i></span></a>
+                    <a href="{{ route('buy', ['search' => 'Mississauga']) }}" class="rt-btn" target="_blank">Buy <span
+                            class="icon"><i class="fa-solid fa-house"></i></span></a>
+                    <a href="{{ route('sell', ['search' => 'Mississauga']) }}" class="rt-btn btn-pink btn-outline"
+                        target="_blank">Sell <span class="icon"><i class="fa-solid fa-house"></i></span></a>
+                    <a href="{{ route('lease', ['search' => 'Mississauga']) }}" class="rt-btn btn-main"
+                        target="_blank">Lease <span class="icon"><i class="fa-solid fa-house"></i></span></a>
                 </div>
             </div>
         </div>
@@ -66,16 +66,16 @@
             <div class="row align-items-end">
                 <div class="col-lg-6 col-md-6 col-sm-12 pb-5 pb-md-0">
                     <div class="about-me-block d-block w-100">
-                       <div class="about-head d-flex">
+                        <div class="about-head d-flex">
                             <div class="name col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                 <h1 class="name">Ms. May lee</h1>
                                 <h5 class="designation">Sales Representative At</h5>
                             </div>
                             <div class="log col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                 <a href="https://www.rightathomerealty.com/" target="_blank" class="company-logo-link"><img
-                                src="{{ asset('frontend/assets/images/right-at-home-realty-logo.svg') }}"></a>
+                                        src="{{ asset('frontend/assets/images/right-at-home-realty-logo.svg') }}"></a>
                             </div>
-                       </div>
+                        </div>
                         <div class="short-bio mt-2">
                             <p>Dedicated real estate professional committed to prioritizing client needs and best interests
                                 through every transaction.</p>
@@ -86,15 +86,15 @@
                         </div>
                     </div>
                     <div class="rt-btn-group mb-4 mt-4">
-                        <a href="{{ route('frontend.about-us') }}" class="rt-btn btn-small btn-pink">About Me <span class="icon"><i
-                                    class="fa-solid fa-user"></i></span></a>
+                        <a href="{{ route('frontend.about-us') }}" class="rt-btn btn-small btn-pink">About Me <span
+                                class="icon"><i class="fa-solid fa-user"></i></span></a>
                         <a href="https://registrantsearch.reco.on.ca" target="_blank"
                             class="rt-btn btn-small btn-pink cred">View Credentials <span class="icon"><i
                                     class="fa-solid fa-user"></i></span></a>
                     </div>
-                    
-                            <p class="note mb-2"><span>Note:</span> Type in First Name <strong>May</strong> and Last Name
-                            <strong>Lee</strong>
+
+                    <p class="note mb-2"><span>Note:</span> Type in First Name <strong>May</strong> and Last Name
+                        <strong>Lee</strong>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="rt-img-block position-relative w-100 h-100">
@@ -105,13 +105,13 @@
                         <div class="rt-action-block">
                             <a href="mailto:company.sunseaz@gmail.com" class="btn-1 btn-animation">
                                 <span class="circle"></span>
-                              <span class="icon">
+                                <span class="icon">
                                     <i class="fa-regular fa-envelope"></i>
                                 </span>
                             </a>
                             <a href="tel:9493851281" class="btn-2 btn-animation">
                                 <span class="circle"></span>
-                                  <span class="icon">
+                                <span class="icon">
                                     <i class="fa-solid fa-phone"></i>
                                 </span>
                             </a>
@@ -123,7 +123,7 @@
     </section>
     <!-- About Section End -->
     <!-- Recommended Properties -->
-      <section class="rt-recommended-properties sec-pad overflow-hidden">
+    <section class="rt-recommended-properties sec-pad overflow-hidden">
         <div class="container">
             <div class="rt-section-title-wrap d-block w-100">
                 <h2 class="main-title">Explore Homes That Inspire Living</h2>
@@ -146,7 +146,7 @@
                                 </div>
                                 <div class="rt-property-body">
                                     <h2 class="property-price">${{ number_format($property['ListPrice'] ?? 0) }}</h2>
-                                     <p class="property-location">
+                                    <p class="property-location">
                                         {{ $property['FullAddress'] ?? '' }}
                                     </p>
                                     <div class="property-meta">
@@ -234,7 +234,7 @@
         </div>
     </section>
     <!-- Mission Section End -->
-    
+
     <!-- Featured Location -->
     <section class="rt-featured-neighbourhood sec-pad overflow-hidden bg-white">
         <div class="container">
@@ -351,11 +351,14 @@
     <section class="rt-testimonial-sec testimonial-index sec-pad overflow-hidden bg-white">
         <div class="container">
             <div class="rt-section-title-wrap d-block w-100">
-                <h2 class="text-center position-relative main-title animate-letters" style="color: var(--rt-accent-color);"><b
-                        style="color: var(--rt-accent-color);">"</b>Your Goals. Our Guidance. Exceptional Results. <b
-                        style="color: var(--rt-accent-color);">"</b></h2>
-                <h2 class="text-center position-relative main-title mb-3 animate-letters" style="color: var(--rt-accent-color);"><b
-                        style="color: var(--rt-accent-color);">"</b> 您的目標，我們的指引，成就非凡 <b style="color: var(--rt-accent-color);">"</b></h2>
+                <h2 class="text-center position-relative main-title animate-letters" style="color: var(--rt-accent-color);">
+                    <b style="color: var(--rt-accent-color);">"</b>Your Goals. Our Guidance. Exceptional Results. <b
+                        style="color: var(--rt-accent-color);">"</b>
+                </h2>
+                <h2 class="text-center position-relative main-title mb-3 animate-letters"
+                    style="color: var(--rt-accent-color);"><b style="color: var(--rt-accent-color);">"</b> 您的目標，我們的指引，成就非凡
+                    <b style="color: var(--rt-accent-color);">"</b>
+                </h2>
             </div>
         </div>
     </section>
@@ -364,14 +367,15 @@
             <div class="rt-section-title-wrap d-block w-100">
                 <h2 class="main-title mt-5">Hear What Our Happy Home Owners Say</h2>
             </div>
-             <x-testimonials />
+            <x-testimonials />
         </div>
     </section>
     <!-- Testimonial End -->
-   
+
 
     <!-- Conatct Section -->
-    <section class="rt-home-contact-sec sec-pad position-relative overflow-hidden" id="rt-home-contact-sec" data-aos="fade-up">
+    <section class="rt-home-contact-sec sec-pad position-relative overflow-hidden" id="rt-home-contact-sec"
+        data-aos="fade-up">
         <div class="container">
             <x-contact source="Home" />
         </div>
@@ -430,5 +434,183 @@
             font-size: 1.1rem;
             letter-spacing: 0.5px;
         }
+
+        /* Skeleton loader styles */
+        .skeleton-loader {
+            animation: pulse 1.5s ease-in-out infinite;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+        }
+
+        @keyframes pulse {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
     </style>
+@endsection
+
+@section('script')
+    @if(isset($lazyLoad) && $lazyLoad)
+        <script>
+            // Execute IMMEDIATELY when DOM is ready (not waiting for images/CSS/fonts)
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('⚡ [DOMContentLoaded] AJAX starting immediately');
+
+                // Load properties via AJAX
+                fetch('/api/home/properties')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success && data.properties && data.properties.length > 0) {
+                            console.log('✅ Properties loaded:', data.count);
+
+                            const wrapper = document.querySelector('.rt-property-carousel .swiper-wrapper');
+                            if (wrapper) {
+                                wrapper.innerHTML = '';
+
+                                data.properties.forEach(property => {
+                                    const transactionType = (property.TransactionType || '').toLowerCase();
+                                    const exploreUrl = ['for lease', 'lease', 'for sub-lease', 'sublease', 'sub-lease'].includes(transactionType)
+                                        ? `/lease/${property.ListingKey}`
+                                        : `/property/${property.ListingKey}`;
+
+                                    const slide = document.createElement('div');
+                                    slide.className = 'swiper-slide';
+                                    slide.innerHTML = `
+                                    <div class="rt-property-item index">
+                                        <div class="rt-property-header">
+                                            <figure class="rt-propert-image">
+                                                <img src="${property.MediaURL || '/frontend/assets/images/properties/property-2.jpg'}" alt="Property Image">
+                                            </figure>
+                                            <span class="property-type-lable">${property.TransactionType || 'Buy'}</span>
+                                            <span class="property-wishlist" data-listing-key="${property.ListingKey || ''}" data-transaction-type="${property.TransactionType || 'For Sale'}">
+                                                <i class="fa-regular fa-heart"></i>
+                                            </span>
+                                        </div>
+                                        <div class="rt-property-body">
+                                            <h2 class="property-price">$${(property.ListPrice || 0).toLocaleString()}</h2>
+                                            <p class="property-location">${property.FullAddress || ''}</p>
+                                            <div class="property-meta">
+                                                <ul class="aminity-list">
+                                                    <li class="aminity-item"><img src="/frontend/assets/images/icons/bed.svg"><span>${property.BedroomsTotal || 'N/A'} Bedrooms</span></li>
+                                                    <li class="aminity-item"><img src="/frontend/assets/images/icons/bathroom.svg"><span>${property.BathroomsTotalInteger || 'N/A'} Bathrooms</span></li>
+                                                    <li class="aminity-item"><img src="/frontend/assets/images/icons/measure-ruler.svg"><span>${property.LivingAreaRange || 'N/A'} sq ft (Living Area)</span></li>
+                                                    <li class="aminity-item"><img src="/frontend/assets/images/icons/clock.svg"><span>${property.DaysOnMarket || 0} Days</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="property-footer">
+                                            <a href="${exploreUrl}" class="btn-property-explore">Explore Property<span class="icon"><i class="fa-solid fa-angles-up"></i></span></a>
+                                        </div>
+                                    </div>`;
+                                    wrapper.appendChild(slide);
+                                });
+
+                                if (typeof Swiper !== 'undefined') {
+                                    const swiperEl = document.querySelector('.rt-property-carousel');
+                                    if (swiperEl && swiperEl.swiper) swiperEl.swiper.destroy();
+                                    new Swiper('.rt-property-carousel', {
+                                        slidesPerView: 1,
+                                        spaceBetween: 24,
+                                        loop: true,
+                                        navigation: {
+                                            nextEl: '.rt-property-carousel .swiper-button-next',
+                                            prevEl: '.rt-property-carousel .swiper-button-prev'
+                                        },
+                                        breakpoints: {
+                                            768: { slidesPerView: 2 },
+                                            1024: { slidesPerView: 3 }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    })
+                    .catch(err => console.error('❌ Properties error:', err));
+
+                // Load counts via AJAX
+                fetch('/api/home/counts')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log('✅ Counts loaded:', data.totalActiveProperties);
+
+                            // Update city counts
+                            document.querySelectorAll('.rt-location-item').forEach(item => {
+                                const cityName = item.querySelector('.location-name').textContent.trim();
+                                if (data.cityCounts[cityName] !== undefined) {
+                                    const countEl = item.querySelector('.count-no');
+                                    const textEl = item.querySelector('.property-count');
+                                    if (countEl) countEl.textContent = data.cityCounts[cityName];
+                                    if (textEl) {
+                                        const count = data.cityCounts[cityName];
+                                        textEl.innerHTML = `<span class="count-no">${count}</span> ${count == 1 ? 'Property' : 'Properties'}`;
+                                    }
+                                }
+                            });
+
+                            // Update property subtype counts
+                            const categoryWrapper = document.querySelector('.rt-category-carousel .swiper-wrapper');
+                            if (categoryWrapper && data.propertySubTypeCounts) {
+                                categoryWrapper.innerHTML = '';
+
+                                const typeIcons = {
+                                    'Detached': 'detached-home-icon.webp',
+                                    'Semi-Detached': 'semi-dtached-home-icon.webp',
+                                    'Freehold Townhouse': 'townhouse-icon.webp',
+                                    'Condo Townhouse': 'townhouse-icon.webp',
+                                    'Condo Apartment': 'apartment-icon.webp',
+                                    'Link': 'detached-home-icon.webp',
+                                    'Duplex': 'duplex-home-icon.webp',
+                                    'Triplex': 'duplex-home-icon.webp',
+                                    'Multiplex': 'duplex-home-icon.webp',
+                                    'Other': 'default-icon.png'
+                                };
+
+                                Object.entries(data.propertySubTypeCounts).forEach(([subType, count]) => {
+                                    const icon = typeIcons[subType] || 'default-icon.png';
+                                    const slide = document.createElement('div');
+                                    slide.className = 'swiper-slide';
+                                    slide.innerHTML = `
+                                    <div class="rt-category-item">
+                                        <a href="#">
+                                            <div class="category-icon mb-2"><div class="icon mx-auto"><img src="/frontend/assets/images/icons/${icon}" alt=""></div></div>
+                                            <div class="category-content text-center">
+                                                <h3>${subType}</h3>
+                                                <p>${count} ${count == 1 ? 'Property' : 'Properties'}</p>
+                                            </div>
+                                        </a>
+                                    </div>`;
+                                    categoryWrapper.appendChild(slide);
+                                });
+
+                                if (typeof Swiper !== 'undefined') {
+                                    const swiperEl = document.querySelector('.rt-category-carousel');
+                                    if (swiperEl && swiperEl.swiper) swiperEl.swiper.destroy();
+                                    new Swiper('.rt-category-carousel', {
+                                        slidesPerView: 2,
+                                        spaceBetween: 24,
+                                        loop: true,
+                                        navigation: {
+                                            nextEl: '.rt-category-carousel .swiper-button-next',
+                                            prevEl: '.rt-category-carousel .swiper-button-prev'
+                                        },
+                                        breakpoints: {
+                                            576: { slidesPerView: 3 },
+                                            768: { slidesPerView: 4 },
+                                            1024: { slidesPerView: 5 }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    })
+                    .catch(err => console.error('❌ Counts error:', err));
+            });
+        </script>
+    @endif
 @endsection
